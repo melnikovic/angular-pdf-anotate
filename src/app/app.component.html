@@ -1,0 +1,17 @@
+<div>
+  <input [(ngModel)]="text" />
+  <button (click)="addAnnotation()">Add</button>
+</div>
+<button (click)="download()">Download</button>
+<div id="viewerContainer">
+  <div id="page1">
+    <pdf-viewer
+      #pdf
+      [src]="pdfSrc"
+      [render-text]="true"
+      [original-size]="false"
+      (page-rendered)="onLoaded()"
+      style="width: 100%; height: 1000px"
+    ></pdf-viewer>
+  </div>
+</div>
