@@ -32,7 +32,10 @@ export class AppComponent implements AfterViewInit {
     this.coordinates = [];
     this.text = '';
     const newData = this.pdfFactory.write();
-    this.pdfSrc = newData;
+    // this.pdfSrc = newData;
+    this.pdfSrc = {
+      data: newData,
+    };
   }
 
   download() {
@@ -40,12 +43,14 @@ export class AppComponent implements AfterViewInit {
   }
 
   onLoaded() {
-    this.httpClient
-      .get(this.pdfSrc, { responseType: 'arraybuffer' })
-      .subscribe((arrayBuffer) => {
-        const uint8Array = new Uint8Array(arrayBuffer);
-        this.pdfFactory = new AnnotationFactory(uint8Array);
-      });
+    if (!this.pdfFactory) {
+      this.httpClient
+        .get(this.pdfSrc, { responseType: 'arraybuffer' })
+        .subscribe((arrayBuffer) => {
+          const uint8Array = new Uint8Array(arrayBuffer);
+          this.pdfFactory = new AnnotationFactory(uint8Array);
+        });
+    }
   }
 
   private getParameters() {
